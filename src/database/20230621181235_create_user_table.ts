@@ -11,7 +11,6 @@ export async function up(knex: Knex): Promise<void> {
     table.datetime("date_created", { precision: 6 }).defaultTo(knex.fn.now(6));
     table.datetime("date_updated", { precision: 6 }).defaultTo(knex.fn.now(6));
     table.integer("created_by_id");
-    table.timestamps();
   });
 }
 
