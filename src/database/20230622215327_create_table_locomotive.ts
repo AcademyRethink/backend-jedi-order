@@ -7,8 +7,8 @@ export async function up(knex: Knex): Promise<void> {
     table.string("status").defaultTo("stoped");
     table.string("route").notNullable();
     table.string("load").notNullable();
-    table.string("driver").notNullable();
-    table.string("maneuverer_id");
+    table.integer("driver_id").notNullable();
+    table.string("maneuverer");
   });
 }
 

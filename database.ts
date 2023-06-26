@@ -4,7 +4,7 @@ const Data = [
     status: "moving locomotive",
     route: "MG-ES",
     load: "iron ore",
-    driver: "Amanda",
+    driver_id: "Amanda",
     maneuverer: "Ana",
   },
   {
@@ -12,7 +12,7 @@ const Data = [
     status: "locomotive under maintenance",
     route: "ES-MG",
     load: "soybean",
-    driver: "André",
+    driver_id: "André",
     maneuverer: "Antonio",
   },
   {
@@ -20,7 +20,7 @@ const Data = [
     status: "moving locomotive",
     route: "ES-MG",
     load: "soybean",
-    driver: "Caio",
+    driver_id: "Caio",
     maneuverer: "Carla",
   },
   {
@@ -28,7 +28,7 @@ const Data = [
     status: "stopped locomotive",
     route: "MG-ES",
     load: "iron ore",
-    driver: "Daniela",
+    driver_id: "Daniela",
     maneuverer: "Douglas",
   },
   {
@@ -36,7 +36,7 @@ const Data = [
     status: "moving locomotive",
     route: "ES-MG",
     load: "soybean",
-    driver: "Juliana",
+    driver_id: "Juliana",
     maneuverer: "Julio",
   },
   {
@@ -44,7 +44,7 @@ const Data = [
     status: "stopped locomotive",
     route: "MG-ES",
     load: "iron ore",
-    driver: "Luiz",
+    driver_id: "Luiz",
     maneuverer: "Laura",
   },
 ];
