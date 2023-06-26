@@ -8,6 +8,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("route").notNullable();
     table.string("load").notNullable();
     table.integer("driver_id").notNullable();
+    table.foreign("driver_id").references("driver.id");
     table.string("maneuverer");
   });
 }
