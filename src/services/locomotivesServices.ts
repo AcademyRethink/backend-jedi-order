@@ -11,6 +11,16 @@ const getAllLocomotivesInfo = async (): Promise<LocomotiveType[]> => {
   return locomotives;
 };
 
+const getFilteredLocomotivesByStatus = async (
+  statusWanted: string
+): Promise<LocomotiveType[]> => {
+  const locomotivesFiltered: LocomotiveType[] =
+    await locomotivesRepositories.filterLocomotiveByStatus(statusWanted);
+
+  return locomotivesFiltered;
+};
+
 export default {
   getAllLocomotivesInfo,
+  getFilteredLocomotivesByStatus,
 };

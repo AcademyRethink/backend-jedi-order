@@ -17,4 +17,21 @@ const show = async (
   }
 };
 
-export default { show };
+const filterStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const statusWanted: string = req.query.status as string;
+
+    const locomotivesFiltered: LocomotiveType[] =
+      await locomotivesServices.getFilteredLocomotivesByStatus(statusWanted);
+
+    res.status(200).send(locomotivesFiltered);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default { show, filterStatus };
