@@ -15,7 +15,9 @@ const insert = async (req: Request, res: Response, next:NextFunction) => {
 
 const login = async (req: Request, res: Response, next:NextFunction): Promise<void> => {
     try {
-      res.status(200).send();
+      const user : LoginRequest  = req.body;
+      const verifiedUser : string | {message: string; status: number;} | undefined = await loginService.verifyUser(user);
+      res.status(200).send(verifiedUser);
     } catch (error: unknown) {
       next(error)
     }
