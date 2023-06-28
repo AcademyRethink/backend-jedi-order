@@ -1,10 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-
-export type ErrorType = {
-  message: string;
-  status: number;
-  stack?: string;
-};
+import { ErrorType } from "../types/error";
 
 export const errorHandler = (
   error: ErrorType,
