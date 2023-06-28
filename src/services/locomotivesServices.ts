@@ -1,5 +1,5 @@
 import locomotivesRepositories from "../repositories/locomotivesRepositories";
-import { LocomotiveType } from "../types";
+import { LocomotiveType } from "../types/locomotivesType";
 
 const getAllLocomotivesInfo = async (): Promise<LocomotiveType[]> => {
   const locomotives: LocomotiveType[] =

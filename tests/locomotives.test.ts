@@ -2,7 +2,7 @@ import { jest, describe } from "@jest/globals";
 import { locomotiveData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
-import { LocomotiveType } from "../src/types";
+import { LocomotiveType } from "../src/types/locomotivesType";
 
 describe("Locomotives tests", () => {
   describe("getAllLocomotivesInfo", () => {

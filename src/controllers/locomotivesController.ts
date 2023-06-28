@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import locomotivesServices from "../services/locomotivesServices";
-import { LocomotiveType } from "../types/index";
+import { LocomotiveType } from "../types/locomotivesType";
 
 const show = async (
   _req: Request,
