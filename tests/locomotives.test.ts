@@ -26,4 +26,25 @@ describe("Locomotives tests", () => {
       }
     });
   });
+  describe("getFilteredLocomotivesByStatus", () => {
+    it("should return all locomotives with the status given by query", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesRepositories, "filterLocomotiveByStatus")
+        .mockResolvedValueOnce([locomotiveData, locomotiveData]);
+      const result: LocomotiveType[] =
+        await locomotivesServices.getFilteredLocomotivesByStatus("stopped");
+
+      expect(result).toMatchObject([locomotiveData, locomotiveData]);
+    });
+    it("should throw an error if no locomotives with given status were found", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesRepositories, "filterLocomotiveByStatus")
+        .mockResolvedValueOnce([]);
+      try {
+        await locomotivesServices.getFilteredLocomotivesByStatus("stopped");
+      } catch (error) {
+        expect(error.message).toBe("No locomotives found with given status");
+      }
+    });
+  });
 });

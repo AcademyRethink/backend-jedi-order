@@ -16,6 +16,9 @@ const getFilteredLocomotivesByStatus = async (
 ): Promise<LocomotiveType[]> => {
   const locomotivesFiltered: LocomotiveType[] =
     await locomotivesRepositories.filterLocomotiveByStatus(statusWanted);
+  if (!locomotivesFiltered.length) {
+    throw new Error("No locomotives found with given status");
+  }
 
   return locomotivesFiltered;
 };
