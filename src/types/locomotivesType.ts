@@ -5,5 +5,5 @@ export type LocomotiveType = {
   route: string;
   load: string;
   driverName: string;
-  maneuverer: string;
+  maneuverer: string | null;
 };
