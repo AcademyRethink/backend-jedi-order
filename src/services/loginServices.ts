@@ -43,9 +43,12 @@ const createToken =async (user:User) => {
 }
 
 const patchUser = async (id: number, user: User) => {
-  const saltRounds = process.env.SALT!
-  const hash = await bcrypt.hash(user.password, Number(saltRounds));
-  const userWithEncryptedPassword = { ...user, password: hash };
+  const userWithEncryptedPassword = {...user}
+  if(user.password){
+    const saltRounds = process.env.SALT!
+    const hash = await bcrypt.hash(user.password, Number(saltRounds));
+    userWithEncryptedPassword.password = hash;
+  } 
 
   const updatedUser= await loginRepository.updateUser(
     {
