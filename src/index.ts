@@ -13,6 +13,7 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 app.use("/", router);
+
 app.use(errorHandler);
 
 app.get("", (_req: Request, res: Response) => {
