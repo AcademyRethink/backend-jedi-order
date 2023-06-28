@@ -5,6 +5,6 @@ const login: Router = Router();
 
 login.post("/", adminAuth.authToken, user.insert);
 login.post("/login", user.login);
-login.put("/:id", user.update);
+login.patch("/:id",adminAuth.authToken, user.update);
 
 export { login };

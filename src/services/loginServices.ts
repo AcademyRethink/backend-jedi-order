@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 import {User,LoginRequest} from "../types/user"
 import jwt from "jsonwebtoken"
-import loginRepository from "../repositories/login";
+import loginRepository from "../repositories/loginRepositories";
 import { makeError  } from "../middlewares/errorHandler"
   
 const createUser = async (user: User) => {
@@ -10,7 +10,7 @@ const createUser = async (user: User) => {
     const userWithEncryptedPassword = { ...user, password: hash };
 
     const createUser = await loginRepository.createUser(userWithEncryptedPassword);
-    return {id: createUser[0], ...userWithEncryptedPassword}  
+    return createUser[0];
 };
 
 const verifyUser = async (user:LoginRequest) => {
@@ -41,9 +41,25 @@ const createToken =async (user:User) => {
 
     return token;
 }
-  
+
+const patchUser = async (id: number, user: User) => {
+  const saltRounds = process.env.SALT!
+  const hash = await bcrypt.hash(user.password, Number(saltRounds));
+  const userWithEncryptedPassword = { ...user, password: hash };
+
+  const updatedUser= await loginRepository.updateUser(
+    {
+      ...userWithEncryptedPassword,
+    },
+    id
+  );
+
+  if(!updatedUser.length) throw makeError({ message: "User not found", status: 400 })
+  return updatedUser[0];
+};
 
 export default {
     createUser,
-    verifyUser
+    verifyUser,
+    patchUser
 }

@@ -25,7 +25,10 @@ const login = async (req: Request, res: Response, next:NextFunction): Promise<vo
 
 const update = async (req: Request, res: Response, next:NextFunction): Promise<void> => {
   try {
-    res.status(201).send();
+    const id: string = req.params.id;
+    const user: User = req.body;
+    const patchUser: User = await loginService.patchUser(parseInt(id), user);
+    res.status(201).send(patchUser);
   } catch (error: unknown) {
     next(error)
   }
