@@ -1,5 +1,5 @@
 import { Request, Response,NextFunction } from "express";
-import loginService from "../services/login";
+import loginService from "../services/loginServices";
 import {User, LoginRequest} from '../types/user'
 
 const insert = async (req: Request, res: Response, next:NextFunction) => {

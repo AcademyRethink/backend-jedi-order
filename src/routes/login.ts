@@ -1,5 +1,5 @@
 import { Router } from "express";
-import user from "../controllers/login";
+import user from "../controllers/loginController";
 import adminAuth from '../middlewares/tokenAuthetication'
 const login: Router = Router();
 
