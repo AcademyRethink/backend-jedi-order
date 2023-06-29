@@ -3,6 +3,7 @@ import { locomotiveData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
 import { LocomotiveType } from "../src/types/locomotivesType";
+import { ErrorType } from "../src/types/error";
 
 describe("Locomotives tests", () => {
   describe("getAllLocomotivesInfo", () => {
@@ -22,28 +23,38 @@ describe("Locomotives tests", () => {
       try {
         await locomotivesServices.getAllLocomotivesInfo();
       } catch (error) {
-        expect(error.message).toBe("Locomotives not found");
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("Locomotives not found");
       }
     });
   });
   describe("getFilteredLocomotivesByStatus", () => {
     it("should return all locomotives with the status given by query", async (): Promise<void> => {
       jest
-        .spyOn(locomotivesRepositories, "filterLocomotiveByStatus")
+        .spyOn(locomotivesRepositories, "filterLocomotive")
         .mockResolvedValueOnce([locomotiveData, locomotiveData]);
       const result: LocomotiveType[] =
-        await locomotivesServices.getFilteredLocomotivesByStatus("stopped");
+        await locomotivesServices.getFilteredLocomotives({
+          status: "stopped",
+          load: "iron",
+          locomotiveName: "Locomotiva ZEY39",
+        });
 
       expect(result).toMatchObject([locomotiveData, locomotiveData]);
     });
     it("should throw an error if no locomotives with given status were found", async (): Promise<void> => {
       jest
-        .spyOn(locomotivesRepositories, "filterLocomotiveByStatus")
+        .spyOn(locomotivesRepositories, "filterLocomotive")
         .mockResolvedValueOnce([]);
       try {
-        await locomotivesServices.getFilteredLocomotivesByStatus("stopped");
+        await locomotivesServices.getFilteredLocomotives({
+          status: "running",
+          load: "coal",
+          locomotiveName: "Locomotiva ZEY31",
+        });
       } catch (error) {
-        expect(error.message).toBe("No locomotives found with given status");
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("No locomotives found");
       }
     });
   });

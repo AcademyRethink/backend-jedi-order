@@ -2,6 +2,7 @@ import { jest, describe } from "@jest/globals";
 import { routeData } from "./mocks";
 import routesRepositories from "../src/repositories/routesRepositories";
 import { RoutesType } from "../src/types/routesType";
+import { ErrorType } from "../src/types/error";
 
 describe("Routes tests", () => {
   describe("getRouteInfo", () => {
@@ -21,7 +22,8 @@ describe("Routes tests", () => {
       try {
         await routesRepositories.getRouteData("route1");
       } catch (error) {
-        expect(error.message).toBe("Route not found");
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("Route not found");
       }
     });
   });
