@@ -5,7 +5,7 @@ import communicationReportService from "../services/communicationReportServices"
 import communicationReportRepository from "../repositories/communicationReportRepository";
 import knexConfig from "../../knexfile";
 
-const routes = Router();
+const router = Router();
 
 const knex = Knex(knexConfig);
 
@@ -14,8 +14,8 @@ const service = communicationReportService(repository);
 
 const controller = communicationReportController(service);
 
-routes.get("/communication-reports", controller.getAllReports);
-routes.post("/communication-reports", controller.createReport);
-routes.get("/communication-reports/:id", controller.getReportById);
+router.get("/", controller.getAllReports);
+router.post("/", controller.createReport);
+router.get("/:id", controller.getReportById);
 
-export default routes;
+export { router };
