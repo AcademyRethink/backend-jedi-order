@@ -7,3 +7,9 @@ export type LocomotiveType = {
   driverName: string;
   maneuverer: string | null;
 };
+
+export type LocomotivesFilterType = {
+  status: string | undefined;
+  load: string | undefined;
+  locomotiveName: string | undefined;
+};

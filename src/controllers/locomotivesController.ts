@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import locomotivesServices from "../services/locomotivesServices";
-import { LocomotiveType } from "../types/locomotivesType";
+import {
+  LocomotivesFilterType,
+  LocomotiveType,
+} from "../types/locomotivesType";
 
 const show = async (
   _req: Request,
@@ -23,10 +26,11 @@ const filterStatus = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const statusWanted: string = req.query.status as string;
+    const filterParams: LocomotivesFilterType =
+      req.query as LocomotivesFilterType;
 
-    const locomotivesFiltered: LocomotiveType[] =
-      await locomotivesServices.getFilteredLocomotivesByStatus(statusWanted);
+    const locomotivesFiltered =
+      await locomotivesServices.getFilteredLocomotives(filterParams);
 
     res.status(200).send(locomotivesFiltered);
   } catch (error) {
