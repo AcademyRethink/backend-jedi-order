@@ -38,4 +38,18 @@ const filterStatus = async (
   }
 };
 
-export default { show, filterStatus };
+const quantityOfLocomotiveBystatus = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const locomotiveStatus =
+      await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+    res.status(200).json(locomotiveStatus);
+  } catch (error: any) {
+    next(error);
+  }
+};
+
+export default { show, filterStatus, quantityOfLocomotiveBystatus };

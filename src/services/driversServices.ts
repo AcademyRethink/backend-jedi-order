@@ -6,7 +6,7 @@ const getAllDriversOfLocomotives = async () => {
   return name;
 };
 
-const getAllDriversFilterById = async (driverID: number) => {
+const getDriversFilterById = async (driverID: number) => {
   const resultDriver: DriverType[] = await driversRepositories.getDriversById(
     driverID
   );
@@ -15,16 +15,7 @@ const getAllDriversFilterById = async (driverID: number) => {
   return resultDriver;
 };
 
-getAllDriversFilterById(0)
-  .then((locomotive) => {
-    //locomotive: tabela q eu quero consultar
-    console.log("Reports:", locomotive);
-  })
-  .catch((error) => {
-    console.error("Error fetching reports:", error);
-  });
-
 export default {
   getAllDriversOfLocomotives,
-  getAllDriversFilterById,
+  getDriversFilterById,
 };
