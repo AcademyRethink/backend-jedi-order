@@ -1,13 +1,9 @@
 import { Knex } from "knex";
 
-export class CommunicationReportRepository {
-  constructor(private knex: Knex) {}
+const communicationReportRepository = (knex: Knex) => ({
+  findAll: () => knex.select("*").from("communication_report"),
+  create: (data: any) => knex("communication_report").insert(data),
+  findById: (id: number) => knex("communication_report").where({ id }).first(),
+});
 
-  async getAll() {
-    return this.knex("communication_report").select("*");
-  }
-
-  async insert(data: any) {
-    return this.knex("communication_report").insert(data);
-  }
-}
+export default communicationReportRepository;
