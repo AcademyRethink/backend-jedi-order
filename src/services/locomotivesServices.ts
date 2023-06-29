@@ -1,5 +1,8 @@
 import locomotivesRepositories from "../repositories/locomotivesRepositories";
-import { LocomotiveType } from "../types/locomotivesType";
+import {
+  LocomotivesFilterType,
+  LocomotiveType,
+} from "../types/locomotivesType";
 
 const getAllLocomotivesInfo = async (): Promise<LocomotiveType[]> => {
   const locomotives: LocomotiveType[] =
@@ -11,13 +14,21 @@ const getAllLocomotivesInfo = async (): Promise<LocomotiveType[]> => {
   return locomotives;
 };
 
-const getFilteredLocomotivesByStatus = async (
-  statusWanted: string
-): Promise<LocomotiveType[]> => {
+const getFilteredLocomotives = async (filterParams: LocomotivesFilterType) => {
+  const filters: { [key: string]: string } = {};
+
+  Object.entries(filterParams).forEach(([key, value]) => {
+    if (value) {
+      const objectKey = "locomotive." + key;
+      filters[objectKey] = value;
+    }
+  });
+
   const locomotivesFiltered: LocomotiveType[] =
-    await locomotivesRepositories.filterLocomotiveByStatus(statusWanted);
+    await locomotivesRepositories.filterLocomotive(filters);
+
   if (!locomotivesFiltered.length) {
-    throw new Error("No locomotives found with given status");
+    throw new Error("No locomotives found");
   }
 
   return locomotivesFiltered;
@@ -42,6 +53,6 @@ const getFilteredQuantityOfLocomotiveByStatus = async () => {
 
 export default {
   getAllLocomotivesInfo,
-  getFilteredLocomotivesByStatus,
+  getFilteredLocomotives,
   getFilteredQuantityOfLocomotiveByStatus,
 };

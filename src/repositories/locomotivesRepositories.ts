@@ -17,7 +17,9 @@ const getAllLocomotivesData = (): Knex.QueryBuilder =>
     )
     .join("driver", "driver.id", "=", "locomotive.driver_id");
 
-const filterLocomotiveByStatus = (statusWanted: string): Knex.QueryBuilder =>
+const filterLocomotive = (filterParams: {
+  [key: string]: string;
+}): Knex.QueryBuilder =>
   knexInstance("locomotive")
     .select(
       "locomotive.id",
@@ -29,9 +31,9 @@ const filterLocomotiveByStatus = (statusWanted: string): Knex.QueryBuilder =>
       "locomotive.maneuverer"
     )
     .join("driver", "driver.id", "=", "locomotive.driver_id")
-    .where("locomotive.status", statusWanted);
+    .where({ ...filterParams });
 
 export default {
   getAllLocomotivesData,
-  filterLocomotiveByStatus,
+  filterLocomotive,
 };
