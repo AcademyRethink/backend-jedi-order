@@ -1,5 +1,5 @@
 export type ErrorType = {
-    message: string;
-    status: number;
-    stack?: string;
+  message?: string;
+  status: number;
+  stack?: string;
 };

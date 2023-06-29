@@ -3,6 +3,7 @@ import { locomotiveData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
 import { LocomotiveType } from "../src/types/locomotivesType";
+import { ErrorType } from "../src/types/error";
 
 describe("Locomotives tests", () => {
   describe("getAllLocomotivesInfo", () => {
@@ -22,7 +23,8 @@ describe("Locomotives tests", () => {
       try {
         await locomotivesServices.getAllLocomotivesInfo();
       } catch (error) {
-        expect(error.message).toBe("Locomotives not found");
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("Locomotives not found");
       }
     });
   });
@@ -51,7 +53,8 @@ describe("Locomotives tests", () => {
           locomotiveName: "Locomotiva ZEY31",
         });
       } catch (error) {
-        expect(error.message).toBe("No locomotives found");
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("No locomotives found");
       }
     });
   });
