@@ -2,14 +2,19 @@ import * as dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import routes from "./routes/communicationReportRoutes";
+import { router } from "./routes";
+import { errorHandler } from "./middlewares/errorHandler";
+
 dotenv.config();
 const app: Express = express();
 
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use("/", routes);
+app.use("/", router);
+
+app.use(errorHandler);
+
 app.get("", (_req: Request, res: Response) => {
   res.send("Jedi Order API - Versão 01");
 });
