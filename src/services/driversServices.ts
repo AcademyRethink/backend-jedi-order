@@ -10,10 +10,18 @@ const getDriversFilterById = async (driverID: number) => {
   const resultDriver: DriverType[] = await driversRepositories.getDriversById(
     driverID
   );
-  if (resultDriver.length == 0)
+  if (!resultDriver.length)
     throw new Error("There is no one in the table with that id");
   return resultDriver;
 };
+getDriversFilterById(1)
+  .then((locomotive) => {
+    //locomotive: tabela q eu quero consultar
+    console.log("Reports:", locomotive);
+  })
+  .catch((error) => {
+    console.error("Error fetching reports:", error);
+  });
 
 export default {
   getAllDriversOfLocomotives,
