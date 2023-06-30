@@ -3,6 +3,7 @@ import {User,LoginRequest} from "../types/user"
 import jwt from "jsonwebtoken"
 import loginRepository from "../repositories/loginRepositories";
 import { makeError  } from "../middlewares/errorHandler"
+import { ErrorType } from "../types/error";
   
 const createUser = async (user: User) => {
     const saltRounds = process.env.SALT!
@@ -16,16 +17,20 @@ const createUser = async (user: User) => {
 const verifyUser = async (user:LoginRequest) => {
   try {
     const userExists = await loginRepository.findUser(user);
-    if (!userExists) throw makeError({ message: "User doesn't exists", status: 400 });
+    if (!userExists.length) throw makeError({ message: "User doesn't exists", status: 400 });
     
     const userLogin = userExists[0];
     const verifyPassword = await bcrypt.compare(user.password, userLogin.password); 
 
-    if(verifyPassword) return await createToken(userLogin); //retorna o que a função createToken retorna
-    return ({ message: "Incorrect password", status: 400 });
+    if(verifyPassword){
+      if(userLogin.active) return await createToken(userLogin); //retorna o que a função createToken retorna
+      throw makeError({ message: "User not active", status: 400 });
+    }
+    throw makeError({ message: "Incorrect password", status: 400 });
   
-  } catch (error:any) {
-    ({ message: error.message, status:error.status });
+  } catch(error) {
+    const myError: ErrorType = error as ErrorType;
+    return {message: myError.message, status: myError.status}
   }
 };
   
@@ -44,18 +49,14 @@ const createToken =async (user:User) => {
 
 const patchUser = async (id: number, user: User) => {
   const userWithEncryptedPassword = {...user}
+  
   if(user.password){
     const saltRounds = process.env.SALT!
     const hash = await bcrypt.hash(user.password, Number(saltRounds));
     userWithEncryptedPassword.password = hash;
   } 
 
-  const updatedUser= await loginRepository.updateUser(
-    {
-      ...userWithEncryptedPassword,
-    },
-    id
-  );
+  const updatedUser= await loginRepository.updateUser({...userWithEncryptedPassword,},id);
 
   if(!updatedUser.length) throw makeError({ message: "User not found", status: 400 })
   return updatedUser[0];
@@ -64,5 +65,6 @@ const patchUser = async (id: number, user: User) => {
 export default {
     createUser,
     verifyUser,
-    patchUser
+    patchUser,
+    createToken
 }
