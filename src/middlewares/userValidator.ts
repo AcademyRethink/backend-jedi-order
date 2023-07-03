@@ -15,7 +15,8 @@ const userInsertValidator = async (
         email: string().required("User email is required"),
         password: string(),
         permission: bool(),
-        image: string()
+        image: string(),
+        active: bool()
     });
     await userSchema.validate(userData, {strict:true});
     next();
@@ -36,7 +37,8 @@ const userPatchValidator = async (
         email: string(),
         password: string(),
         permission: bool(),
-        image: string()
+        image: string(),
+        active: bool()
       });
       await userSchema.validate(userData, {strict:true});
       next();

@@ -1,5 +1,6 @@
 import { LocomotiveType } from "../src/types/locomotivesType";
 import { RoutesType } from "../src/types/routesType";
+import { LoginRequest, User } from "../src/types/user";
 
 export const locomotiveData: LocomotiveType = {
   id: 1,
@@ -9,6 +10,13 @@ export const locomotiveData: LocomotiveType = {
   load: "iron",
   driverName: "André",
   maneuverer: null,
+};
+
+export const locomotiveStatusCountData = {
+  totalLocomotive: 2,
+  underMaintenance: 0,
+  moving: 0,
+  stopped: 2,
 };
 
 export const routeData: RoutesType = {
@@ -60,3 +68,32 @@ export const mockReportFormated = {
   date: "29/06/2023",
   time: "14:37:36",
 };
+
+export const createdUserData: User = {
+  id: 1,
+  name: "Andre",
+  email: "andre@email.com",
+  password: "usanfuqwnfiq",
+  permission: true,
+  active: true,
+  image: undefined,
+  date_created: new Date(),
+  date_updated: new Date(),
+};
+
+export const loginData: LoginRequest = {
+  email: "andre@email.com",
+  password: "usanfuqwnfiq",
+};
+
+export const userData = {
+  name: "Andre",
+  email: "andre@email.com",
+  password: "usanfuqwnfiq",
+  permission: true,
+  active: true,
+  image: undefined,
+};
+
+export const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbmRyZUBlbWFpbC5jb20iLCJwZXJtaXNzaW9uIjp0cnVlfQ.IorlY9xDaQh5khqxlbrwgPetcU2JlSAZawkzEOE74DE";

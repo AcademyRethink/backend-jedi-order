@@ -1,5 +1,5 @@
 import { jest, describe } from "@jest/globals";
-import { locomotiveData } from "./mocks";
+import { locomotiveData, locomotiveStatusCountData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
 import { LocomotiveType } from "../src/types/locomotivesType";
@@ -56,6 +56,17 @@ describe("Locomotives tests", () => {
         const myError: ErrorType = error as ErrorType;
         expect(myError.message).toBe("No locomotives found");
       }
+    });
+    describe("getFilteredQuantityOfLocomotiveByStatus", () => {
+      it("should return an object counting all locomotive status", async (): Promise<void> => {
+        jest
+          .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+          .mockResolvedValueOnce([locomotiveData, locomotiveData]);
+        const result =
+          await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+
+        expect(result).toMatchObject(locomotiveStatusCountData);
+      });
     });
   });
 });
