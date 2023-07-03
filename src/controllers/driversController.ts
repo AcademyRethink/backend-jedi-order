@@ -8,7 +8,7 @@ const index = async (_req: Request, res: Response, next: NextFunction) => {
       await driversServices.getAllDriversOfLocomotives();
 
     res.status(200).send(drivers);
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
@@ -16,11 +16,11 @@ const index = async (_req: Request, res: Response, next: NextFunction) => {
 const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const driverId = Number(req.params.id);
-    const drivers: DriverType[] = await driversServices.getDriversFilterById(
+    const drivers: DriverType = await driversServices.getDriversFilterById(
       driverId
     );
     res.status(200).send(drivers);
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
