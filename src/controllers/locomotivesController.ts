@@ -20,7 +20,7 @@ const show = async (
   }
 };
 
-const filterStatus = async (
+const filterLocomotives = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -29,7 +29,7 @@ const filterStatus = async (
     const filterParams: LocomotivesFilterType =
       req.query as LocomotivesFilterType;
 
-    const locomotivesFiltered =
+    const locomotivesFiltered: LocomotiveType[] =
       await locomotivesServices.getFilteredLocomotives(filterParams);
 
     res.status(200).send(locomotivesFiltered);
@@ -42,14 +42,14 @@ const quantityOfLocomotiveBystatus = async (
   _req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const locomotiveStatus =
       await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
     res.status(200).json(locomotiveStatus);
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
 
-export default { show, filterStatus, quantityOfLocomotiveBystatus };
+export default { show, filterLocomotives, quantityOfLocomotiveBystatus };

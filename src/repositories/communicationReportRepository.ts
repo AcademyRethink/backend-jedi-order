@@ -7,7 +7,9 @@ const communicationReportRepository = (knex: Knex) => ({
   findByDate: (days: number) =>
     knex
       .select(
-        knex.raw("DATE(created_at) as created_date, subject, count(*) as count")
+        knex.raw(
+          "DATE(created_at) as created_date, subject_id, count(*) as count"
+        )
       )
       .from("communication_report")
       .where(
@@ -15,7 +17,7 @@ const communicationReportRepository = (knex: Knex) => ({
         ">=",
         knex.raw(`CURRENT_TIMESTAMP - INTERVAL '${days} days'`)
       )
-      .groupByRaw("DATE(created_at), subject"),
+      .groupByRaw("DATE(created_at), subject_id"),
 });
 
 export default communicationReportRepository;

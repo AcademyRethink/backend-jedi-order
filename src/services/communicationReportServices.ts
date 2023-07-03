@@ -3,13 +3,13 @@ import { formatReportDateAndTime } from "../utils/formateDateAndTime";
 
 interface Report {
   created_date: Date;
-  subject: string;
+  subject_id: number;
   count: number;
 }
 
 interface ReportsByDate {
   [date: string]: {
-    [subject: string]: number;
+    [subject_id: number]: number;
   };
 }
 
@@ -28,7 +28,7 @@ const communicationReportService = (
   getReportsByDays: async (days: number) => {
     const reports = await repo.findByDate(days);
     const countedReports = reports.reduce((acc, curr) => {
-      acc[curr.subject] = (acc[curr.subject] || 0) + 1;
+      acc[curr.subject_id] = (acc[curr.subject_id] || 0) + 1;
       return acc;
     }, {});
     return countedReports;
@@ -44,7 +44,7 @@ const communicationReportService = (
         result[date] = {};
       }
 
-      result[date][report.subject] = report.count;
+      result[date][report.subject_id] = report.count;
     });
 
     const formattedResult = Object.keys(result).map((date) => ({

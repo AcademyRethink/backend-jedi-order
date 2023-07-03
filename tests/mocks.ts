@@ -28,7 +28,7 @@ export const routeData: RoutesType = {
 export const mockReports = [
   {
     id: 1,
-    subject: "Report 1",
+    subject_id: 1,
     created_by_id: 1,
     created_at: "2023-06-26T18:03:32.909Z",
     driver_id: 1,
@@ -42,7 +42,7 @@ export const mockReports = [
 ];
 
 export const mockNewReport = {
-  subject: "Report 2",
+  subject_id: 2,
   created_by_id: 2,
   driver_id: 2,
   location: "Location 2",
@@ -55,7 +55,7 @@ export const mockNewReport = {
 
 export const mockReportFormated = {
   id: 3,
-  subject: "lsidasoidhsaiusahiudas",
+  subject_id: 1,
   created_by_id: null,
   created_at: "2023-06-29T17:37:36.775Z",
   driver_id: 3,

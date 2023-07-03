@@ -1,4 +1,4 @@
 export type DriverType = {
-  id: number;
+  id?: number;
   name: string;
 };
