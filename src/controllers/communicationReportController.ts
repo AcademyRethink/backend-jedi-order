@@ -17,6 +17,15 @@ const communicationReportController = (
     if (!report) return res.status(404).json({ message: "Report not found." });
     res.json(report);
   },
+  getReportsByDays: async (req: Request, res: Response) => {
+    const days = Number(req.params.days);
+    const reports = await service.getReportsByDays(days);
+    if (!reports)
+      return res
+        .status(404)
+        .json({ message: "No reports found for the given days." });
+    res.json(reports);
+  },
 });
 
 export default communicationReportController;
