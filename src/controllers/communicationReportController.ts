@@ -1,3 +1,5 @@
+// communicationReportController.ts
+
 import { NextFunction, Request, Response } from "express";
 import communicationReportService from "../services/communicationReportServices";
 
@@ -38,6 +40,25 @@ const communicationReportController = (
         return res
           .status(404)
           .json({ message: "No reports found for the given days." });
+      res.json(reports);
+    } catch (error) {
+      next(error);
+    }
+  },
+  getReportCountBySubjectLastThreeMonths: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const subjectId = Number(req.params.subjectId);
+      const reports = await service.getReportCountBySubjectLastThreeMonths(
+        subjectId
+      );
+      if (!reports)
+        return res
+          .status(404)
+          .json({ message: "No reports found for this subject ID." });
       res.json(reports);
     } catch (error) {
       next(error);

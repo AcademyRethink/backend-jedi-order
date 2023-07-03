@@ -17,6 +17,10 @@ const controller = communicationReportController(service);
 router.get("/", controller.getAllReports);
 router.post("/", controller.createReport);
 router.get("/:id", controller.getReportById);
+router.get(
+  "/filterbysubjectid/:subjectId",
+  controller.getReportCountBySubjectLastThreeMonths
+);
 router.get("/filterbysubjectanddays/:days", async (req, res) => {
   const days = Number(req.params.days);
   const result = await service.groupReportsByDate(days);

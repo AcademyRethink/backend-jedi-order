@@ -38,13 +38,13 @@ const communicationReportService = (
 
     const result: ReportsByDate = {};
 
-    reports.forEach((report: Report) => {
+    reports.forEach((report) => {
       const date = report.created_date.toISOString().substring(0, 10);
       if (!result[date]) {
         result[date] = {};
       }
 
-      result[date][report.subject_id] = report.count;
+      result[date][report.failure_type] = report.count;
     });
 
     const formattedResult = Object.keys(result).map((date) => ({
@@ -53,6 +53,14 @@ const communicationReportService = (
     }));
 
     return formattedResult;
+  },
+  getReportCountBySubjectLastThreeMonths: async (subjectId: number) => {
+    const reports = await repo.findBySubjectLastThreeMonths(subjectId);
+    return reports.map((report) => ({
+      month: report.month,
+      failure_type: report.failure_type,
+      count: report.count,
+    }));
   },
 });
 
