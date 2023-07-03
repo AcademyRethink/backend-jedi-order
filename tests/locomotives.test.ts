@@ -21,7 +21,7 @@ describe("Locomotives tests", () => {
         .mockResolvedValueOnce([]);
       try {
         await locomotivesServices.getAllLocomotivesInfo();
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toBe("Locomotives not found");
       }
     });
@@ -50,9 +50,42 @@ describe("Locomotives tests", () => {
           load: "coal",
           locomotiveName: "Locomotiva ZEY31",
         });
-      } catch (error) {
+      } catch (error: any) {
         expect(error.message).toBe("No locomotives found");
       }
+    });
+  });
+
+  describe("getFilteredQuantityOfLocomotiveByStatus", () => {
+    it("should return the total number of locomotives ", async (): Promise<void> => {});
+  });
+
+  describe("getFilteredQuantityOfLocomotiveByStatus", () => {
+    it("should return the count of locomotives by status", async () => {
+      // Mock da função getAllLocomotivesData para retornar dados fictícios
+      const mockData = [
+        { id: 1, status: "locomotive under maintenance" },
+        { id: 2, status: "moving locomotive" },
+        { id: 3, status: "stopped locomotive" },
+        { id: 4, status: "moving locomotive" },
+        { id: 5, status: "locomotive under maintenance" },
+      ];
+      jest
+        .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+        .mockResolvedValue(mockData);
+
+      const expectedCount = {
+        totalLocomotive: 5,
+        underMaintenance: 2,
+        moving: 2,
+        stopped: 1,
+      };
+
+      const result =
+        await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+
+      expect(result).toEqual(expectedCount);
+      expect(locomotivesRepositories.getAllLocomotivesData).toHaveBeenCalled();
     });
   });
 });

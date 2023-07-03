@@ -46,6 +46,7 @@ const getFilteredQuantityOfLocomotiveByStatus = async () => {
       if (curr.status === "stopped locomotive") acc.stopped = acc.stopped + 1;
       return acc;
     },
+
     { totalLocomotive: 0, underMaintenance: 0, moving: 0, stopped: 0 }
   );
   return countLocomotiveStatus;
