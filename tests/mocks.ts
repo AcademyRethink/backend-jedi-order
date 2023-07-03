@@ -14,8 +14,8 @@ export const locomotiveData: LocomotiveType = {
 
 export const locomotiveStatusCountData = {
   totalLocomotive: 2,
-  underMaintenance: 0,
-  moving: 0,
+  maintenance: 0,
+  running: 0,
   stopped: 2,
 };
 

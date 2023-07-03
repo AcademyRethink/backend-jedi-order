@@ -17,7 +17,7 @@ describe("Login tests", () => {
         .spyOn(loginRepositories, "createUser")
         .mockResolvedValueOnce([createdUserData]);
 
-      const result: User[] = await loginServices.createUser(userToAdd);
+      const result: User = await loginServices.createUser(userToAdd);
 
       expect(result).toMatchObject(createdUserData);
     });
