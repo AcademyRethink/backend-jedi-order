@@ -1,5 +1,5 @@
 import { jest, describe } from "@jest/globals";
-import { locomotiveData } from "./mocks";
+import { locomotiveData, locomotiveOverviewData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
 import { LocomotiveType } from "../src/types/locomotivesType";
@@ -24,11 +24,11 @@ describe("Locomotives tests", () => {
         await locomotivesServices.getAllLocomotivesInfo();
       } catch (error) {
         const myError: ErrorType = error as ErrorType;
-        expect(myError.message).toBe("Locomotives not found");
+        expect(myError.message).toBe("No locomotives found!");
       }
     });
   });
-  describe("getFilteredLocomotivesByStatus", () => {
+  describe("getFilteredLocomotives", () => {
     it("should return all locomotives with the status given by query", async (): Promise<void> => {
       jest
         .spyOn(locomotivesRepositories, "filterLocomotive")
@@ -54,7 +54,30 @@ describe("Locomotives tests", () => {
         });
       } catch (error) {
         const myError: ErrorType = error as ErrorType;
-        expect(myError.message).toBe("No locomotives found");
+        expect(myError.message).toBe("No locomotives found!");
+      }
+    });
+  });
+  describe("getFilteredQuantityOfLocomotiveByStatus", () => {
+    it("should return all locomotives status count", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+        .mockResolvedValueOnce([locomotiveData, locomotiveData]);
+      const result =
+        await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+
+      expect(result).toMatchObject(locomotiveOverviewData);
+    });
+    it("should throw if no locomotives were found", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+        .mockResolvedValueOnce([]);
+
+      try {
+        await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+      } catch (error) {
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("No locomotives found!");
       }
     });
   });

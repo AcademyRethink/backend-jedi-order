@@ -11,6 +11,13 @@ export const locomotiveData: LocomotiveType = {
   maneuverer: null,
 };
 
+export const locomotiveOverviewData = {
+  totalLocomotive: 2,
+  maintenance: 0,
+  running: 0,
+  stopped: 2,
+};
+
 export const routeData: RoutesType = {
   id: 1,
   latitude: "-12.8531",
