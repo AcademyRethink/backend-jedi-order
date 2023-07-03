@@ -16,6 +16,14 @@ type LoginRequest = {
     password: string;
 }
 
+type MyAccount = {
+    id?:  string | number;
+    name: string;
+    email: string;
+    password: string;
+    active: boolean;
+}
+
 interface TokenPayload extends JwtPayload{
     id: number;
     email: string;
@@ -27,5 +35,6 @@ interface TokenPayload extends JwtPayload{
 export {
     User,
     LoginRequest,
-    TokenPayload
+    TokenPayload,
+    MyAccount
 }
