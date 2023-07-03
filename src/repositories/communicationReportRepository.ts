@@ -1,8 +1,9 @@
 import { Knex } from "knex";
+import { ReportType } from "../types/communicationReportsTypes";
 
 const communicationReportRepository = (knex: Knex) => ({
   findAll: () => knex.select("*").from("communication_report"),
-  create: (data: any) => knex("communication_report").insert(data),
+  create: (data: ReportType) => knex("communication_report").insert(data),
   findById: (id: number) => knex("communication_report").where({ id }).first(),
   findByDate: (days: number) =>
     knex

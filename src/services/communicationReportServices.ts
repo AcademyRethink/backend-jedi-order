@@ -1,12 +1,7 @@
+import { makeError } from "../middlewares/errorHandler";
 import communicationReportRepository from "../repositories/communicationReportRepository";
+import { ReportType } from "../types/communicationReportsTypes";
 import { formatReportDateAndTime } from "../utils/formateDateAndTime";
-
-interface Report {
-  created_date: Date;
-  subject_id: number;
-  count: number;
-}
-
 interface ReportsByDate {
   [date: string]: {
     [subject_id: number]: number;
@@ -16,11 +11,15 @@ interface ReportsByDate {
 const communicationReportService = (
   repo: ReturnType<typeof communicationReportRepository>
 ) => ({
-  getReports: async () => {
-    const reports = await repo.findAll();
+  getReports: async (): Promise<ReportType[]> => {
+    const reports: ReportType[] = await repo.findAll();
     return reports.map(formatReportDateAndTime);
   },
-  createReport: (data: any) => repo.create(data),
+  createReport: async (data: ReportType): Promise<ReportType> => {
+    const isCreated = await repo.create(data);
+    if (isCreated) return data;
+    throw makeError({ message: "Internal server error", status: 500 });
+  },
   getReportById: async (id: number) => {
     const report = await repo.findById(id);
     return report ? formatReportDateAndTime(report) : null;
@@ -38,7 +37,7 @@ const communicationReportService = (
 
     const result: ReportsByDate = {};
 
-    reports.forEach((report: Report) => {
+    reports.forEach((report) => {
       const date = report.created_date.toISOString().substring(0, 10);
       if (!result[date]) {
         result[date] = {};
