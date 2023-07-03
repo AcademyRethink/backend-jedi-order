@@ -12,6 +12,7 @@ export const locomotiveData: LocomotiveType = {
   maneuverer: null,
 };
 
+
 export const locomotiveStatusCountData = {
   totalLocomotive: 2,
   underMaintenance: 0,

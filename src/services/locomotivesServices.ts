@@ -1,3 +1,4 @@
+import { makeError } from "../middlewares/errorHandler";
 import locomotivesRepositories from "../repositories/locomotivesRepositories";
 import {
   LocomotivesFilterType,
@@ -8,18 +9,20 @@ const getAllLocomotivesInfo = async (): Promise<LocomotiveType[]> => {
   const locomotives: LocomotiveType[] =
     await locomotivesRepositories.getAllLocomotivesData();
   if (!locomotives.length) {
-    throw new Error("Locomotives not found");
+    throw makeError({ message: "No locomotives found!", status: 500 });
   }
 
   return locomotives;
 };
 
-const getFilteredLocomotives = async (filterParams: LocomotivesFilterType) => {
+const getFilteredLocomotives = async (
+  filterParams: LocomotivesFilterType
+): Promise<LocomotiveType[]> => {
   const filters: { [key: string]: string } = {};
 
   Object.entries(filterParams).forEach(([key, value]) => {
     if (value) {
-      const objectKey = "locomotive." + key;
+      const objectKey: string = "locomotive." + key;
       filters[objectKey] = value;
     }
   });
@@ -28,25 +31,34 @@ const getFilteredLocomotives = async (filterParams: LocomotivesFilterType) => {
     await locomotivesRepositories.filterLocomotive(filters);
 
   if (!locomotivesFiltered.length) {
-    throw new Error("No locomotives found");
+    throw makeError({ message: "No locomotives found!", status: 500 });
   }
 
   return locomotivesFiltered;
 };
 
-const getFilteredQuantityOfLocomotiveByStatus = async () => {
-  const locomotiveStatus: LocomotiveType[] =
+const getFilteredQuantityOfLocomotiveByStatus = async (): Promise<{
+  totalLocomotive: number;
+  maintenance: number;
+  running: number;
+  stopped: number;
+}> => {
+  const allLocomotives: LocomotiveType[] =
     await locomotivesRepositories.getAllLocomotivesData();
-  const countLocomotiveStatus = locomotiveStatus.reduce(
+
+  if (!allLocomotives.length) {
+    throw makeError({ message: "No locomotives found!", status: 500 });
+  }
+
+  const countLocomotiveStatus = allLocomotives.reduce(
     (acc, curr) => {
       acc.totalLocomotive = acc.totalLocomotive + 1;
-      if (curr.status === "locomotive under maintenance")
-        acc.underMaintenance = acc.underMaintenance + 1;
-      if (curr.status === "moving locomotive") acc.moving = acc.moving + 1;
-      if (curr.status === "stopped locomotive") acc.stopped = acc.stopped + 1;
+      if (curr.status === "maintenance") acc.maintenance = acc.maintenance + 1;
+      if (curr.status === "running") acc.running = acc.running + 1;
+      if (curr.status === "stopped") acc.stopped = acc.stopped + 1;
       return acc;
     },
-    { totalLocomotive: 0, underMaintenance: 0, moving: 0, stopped: 0 }
+    { totalLocomotive: 0, maintenance: 0, running: 0, stopped: 0 }
   );
   return countLocomotiveStatus;
 };
