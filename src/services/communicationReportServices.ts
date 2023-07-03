@@ -47,7 +47,12 @@ const communicationReportService = (
       result[date][report.subject] = report.count;
     });
 
-    return result;
+    const formattedResult = Object.keys(result).map((date) => ({
+      date,
+      reports: result[date],
+    }));
+
+    return formattedResult;
   },
 });
 
