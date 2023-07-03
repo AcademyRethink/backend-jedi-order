@@ -5,5 +5,6 @@ const router: Router = Router();
 
 router.get("/", locomotivesController.show);
 router.get("/filter", locomotivesController.filterStatus);
+router.get("/overview", locomotivesController.quantityOfLocomotiveBystatus);
 
 export { router };
