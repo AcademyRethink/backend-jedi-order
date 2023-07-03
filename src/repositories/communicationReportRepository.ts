@@ -84,6 +84,23 @@ const communicationReportRepository = (knex: Knex) => ({
       .groupByRaw(
         "TO_CHAR(DATE_TRUNC('month', communication_report.created_at), 'Month'), failure_types.failure_type"
       ),
+  findErrorCountByLocomotiveAndTimeInterval: (
+    failureType: number,
+    startDate: Date,
+    endDate: Date
+  ) =>
+    knex("communication_report")
+      .join(
+        "failure_types",
+        "communication_report.subject_id",
+        "failure_types.id"
+      )
+      .join("locomotive", "communication_report.locomotive_id", "locomotive.id")
+      .where("failure_types.id", failureType)
+      .whereBetween("communication_report.created_at", [startDate, endDate])
+      .select("locomotive.name as locomotive", "failure_types.failure_type")
+      .count("* as count")
+      .groupBy("locomotive.name", "failure_types.failure_type"),
 });
 
 export default communicationReportRepository;

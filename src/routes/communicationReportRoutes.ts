@@ -21,6 +21,10 @@ router.get(
   "/filterbysubjectid/:subjectId",
   controller.getReportCountBySubjectLastThreeMonths
 );
+router.post(
+  "/filterbytimeinterval",
+  controller.getErrorCountByLocomotiveAndTimeInterval
+);
 router.get("/filterbysubjectanddays/:days", async (req, res) => {
   const days = Number(req.params.days);
   const result = await service.groupReportsByDate(days);

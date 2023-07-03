@@ -13,6 +13,12 @@ interface ReportsByDate {
   };
 }
 
+interface ErrorCountByLocomotive {
+  locomotive: string;
+  failure_type: string;
+  count: number;
+}
+
 const communicationReportService = (
   repo: ReturnType<typeof communicationReportRepository>
 ) => ({
@@ -60,6 +66,22 @@ const communicationReportService = (
       month: report.month,
       failure_type: report.failure_type,
       count: report.count,
+    }));
+  },
+  getErrorCountByLocomotiveAndTimeInterval: async (
+    failureType: number,
+    startDate: Date,
+    endDate: Date
+  ): Promise<ErrorCountByLocomotive[]> => {
+    const errorCounts = await repo.findErrorCountByLocomotiveAndTimeInterval(
+      failureType,
+      startDate,
+      endDate
+    );
+    return errorCounts.map((errorCount) => ({
+      locomotive: errorCount.locomotive as string,
+      failure_type: errorCount.failure_type as string,
+      count: parseInt(errorCount.count as string),
     }));
   },
 });
