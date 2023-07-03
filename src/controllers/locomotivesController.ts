@@ -47,7 +47,7 @@ const quantityOfLocomotiveBystatus = async (
     const locomotiveStatus =
       await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
     res.status(200).json(locomotiveStatus);
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
