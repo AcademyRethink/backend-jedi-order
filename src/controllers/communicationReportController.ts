@@ -93,6 +93,23 @@ const communicationReportController = (
       next(error);
     }
   },
+
+  getReportsByTimeInterval: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { startDate, endDate } = req.body;
+      const reports = await service.getReportsByTimeInterval(
+        startDate,
+        endDate
+      );
+      res.json(reports);
+    } catch (error) {
+      next(error);
+    }
+  },
 });
 
 export default communicationReportController;
