@@ -1,11 +1,18 @@
 import { makeError } from "../middlewares/errorHandler";
 import communicationReportRepository from "../repositories/communicationReportRepository";
 import { ReportType } from "../types/communicationReportsTypes";
+import { CreateCommunicationReportData } from "../types/communicationReportsTypes";
 import { formatReportDateAndTime } from "../utils/formateDateAndTime";
 interface ReportsByDate {
   [date: string]: {
     [subject_id: number]: number;
   };
+}
+
+interface ErrorCountByLocomotive {
+  locomotive: string;
+  failure_type: string;
+  count: number;
 }
 
 const communicationReportService = (
@@ -15,7 +22,9 @@ const communicationReportService = (
     const reports: ReportType[] = await repo.findAll();
     return reports.map(formatReportDateAndTime);
   },
-  createReport: async (data: ReportType): Promise<ReportType> => {
+  createReport: async (
+    data: CreateCommunicationReportData
+  ): Promise<ReportType> => {
     const isCreated = await repo.create(data);
     if (isCreated) return data;
     throw makeError({ message: "Internal server error", status: 500 });
@@ -43,7 +52,7 @@ const communicationReportService = (
         result[date] = {};
       }
 
-      result[date][report.subject_id] = report.count;
+      result[date][report.failure_type] = report.count;
     });
 
     const formattedResult = Object.keys(result).map((date) => ({
@@ -52,6 +61,30 @@ const communicationReportService = (
     }));
 
     return formattedResult;
+  },
+  getReportCountBySubjectLastThreeMonths: async (subjectId: number) => {
+    const reports = await repo.findBySubjectLastThreeMonths(subjectId);
+    return reports.map((report) => ({
+      month: report.month,
+      failure_type: report.failure_type,
+      count: report.count,
+    }));
+  },
+  getErrorCountByLocomotiveAndTimeInterval: async (
+    failureType: number,
+    startDate: Date,
+    endDate: Date
+  ): Promise<ErrorCountByLocomotive[]> => {
+    const errorCounts = await repo.findErrorCountByLocomotiveAndTimeInterval(
+      failureType,
+      startDate,
+      endDate
+    );
+    return errorCounts.map((errorCount) => ({
+      locomotive: errorCount.locomotive as string,
+      failure_type: errorCount.failure_type as string,
+      count: parseInt(errorCount.count as string),
+    }));
   },
 });
 
