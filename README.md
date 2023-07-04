@@ -16,7 +16,9 @@
 </div>
 
 # No que consiste o projeto?
-<p>Este repositório consiste no backend de um dashboard de controle ferroviário onde será possível ver a localização de locomotivas e visualizar o histórico de falhas relacionados às locomotivas.</p>
+<p>O nosso projeto é um Dashboard desenvolvido especificamente para atender às necessidades das empresas siderúrgicas que dependem do modal ferroviário para o transporte de seus produtos. O foco principal do produto é oferecer aos controladores ferroviários uma maneira fácil e simplificada de interpretar dados, permitindo que tomem decisões rápidas e precisas no seu dia a dia.
+
+O produto possui duas funcionalidades principais: um Mapa para controle e gerenciamento em tempo real das locomotivas, e a Análise de falhas através de gráficos para os controladores. Essas funcionalidades visam melhorar a eficiência operacional, reduzir os custos de desenvolvimento de software interno e fornecer segurança nas tomadas de decisão dos responsáveis.</p>
 
 # Pré-requisitos
 Antes de executar o projeto, verifique se o seu ambiente atende aos seguintes requisitos:
@@ -33,6 +35,8 @@ Siga as etapas abaixo para configurar o projeto em seu ambiente local:
 - Instale as dependências: npm install
 - Copie o arquivo de configuração de exemplo e renomeie-o para .env: cp .env.example .env
 - Edite o arquivo .env e configure as variáveis de ambiente de acordo com a sua configuração (como detalhes do banco de dados, chaves secretas, etc.).
+- Rode o comando npx knex migrate:latest para criar as tabelas no banco de dados.
+- Execute o arquivo seedDatabase.ts para preencher as tabelas criadas.
 
 # Executando o projeto
 Após a configuração, você pode executar o projeto executando o seguinte comando:
