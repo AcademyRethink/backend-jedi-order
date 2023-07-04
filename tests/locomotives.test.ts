@@ -1,8 +1,9 @@
 import { jest, describe } from "@jest/globals";
-import { locomotiveData } from "./mocks";
+import { locomotiveData, locomotiveStatusCountData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
 import { LocomotiveType } from "../src/types/locomotivesType";
+import { ErrorType } from "../src/types/error";
 
 describe("Locomotives tests", () => {
   describe("getAllLocomotivesInfo", () => {
@@ -21,12 +22,18 @@ describe("Locomotives tests", () => {
         .mockResolvedValueOnce([]);
       try {
         await locomotivesServices.getAllLocomotivesInfo();
+<<<<<<< HEAD
       } catch (error: any) {
         expect(error.message).toBe("Locomotives not found");
+=======
+      } catch (error) {
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("No locomotives found!");
+>>>>>>> c95505cd755257e316e7fa3085cfd08b71b104c0
       }
     });
   });
-  describe("getFilteredLocomotivesByStatus", () => {
+  describe("getFilteredLocomotives", () => {
     it("should return all locomotives with the status given by query", async (): Promise<void> => {
       jest
         .spyOn(locomotivesRepositories, "filterLocomotive")
@@ -50,6 +57,7 @@ describe("Locomotives tests", () => {
           load: "coal",
           locomotiveName: "Locomotiva ZEY31",
         });
+<<<<<<< HEAD
       } catch (error: any) {
         expect(error.message).toBe("No locomotives found");
       }
@@ -86,6 +94,46 @@ describe("Locomotives tests", () => {
 
       expect(result).toEqual(expectedCount);
       expect(locomotivesRepositories.getAllLocomotivesData).toHaveBeenCalled();
+=======
+      } catch (error) {
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("No locomotives found!");
+      }
+    });
+  });
+  describe("getFilteredQuantityOfLocomotiveByStatus", () => {
+    it("should return all locomotives status count", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+        .mockResolvedValueOnce([locomotiveData, locomotiveData]);
+      const result =
+        await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+
+      expect(result).toMatchObject(locomotiveStatusCountData);
+    });
+    it("should throw if no locomotives were found", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+        .mockResolvedValueOnce([]);
+
+      try {
+        await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+      } catch (error) {
+        const myError: ErrorType = error as ErrorType;
+        expect(myError.message).toBe("No locomotives found!");
+      }
+    });
+    describe("getFilteredQuantityOfLocomotiveByStatus", () => {
+      it("should return an object counting all locomotive status", async (): Promise<void> => {
+        jest
+          .spyOn(locomotivesRepositories, "getAllLocomotivesData")
+          .mockResolvedValueOnce([locomotiveData, locomotiveData]);
+        const result =
+          await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
+
+        expect(result).toMatchObject(locomotiveStatusCountData);
+      });
+>>>>>>> c95505cd755257e316e7fa3085cfd08b71b104c0
     });
   });
 });

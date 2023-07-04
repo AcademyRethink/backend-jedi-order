@@ -5,6 +5,7 @@ type User = {
     email: string;
     password: string;
     permission: boolean;
+    active: boolean;
     image?: string | undefined;
     date_created?: Date | undefined;
     date_updated?: Date | undefined;
@@ -13,6 +14,14 @@ type User = {
 type LoginRequest = {
     email: string;
     password: string;
+}
+
+type MyAccount = {
+    id?:  string | number;
+    name: string;
+    email: string;
+    password: string;
+    active: boolean;
 }
 
 interface TokenPayload extends JwtPayload{
@@ -26,5 +35,6 @@ interface TokenPayload extends JwtPayload{
 export {
     User,
     LoginRequest,
-    TokenPayload
+    TokenPayload,
+    MyAccount
 }

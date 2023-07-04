@@ -12,10 +12,11 @@ const userInsertValidator = async (
 
     const userSchema = object({
         name: string().required("User name is required"), 
-        email: string().required("User email is required"),
-        password: string(),
+        email: string().email().required("User email is required"),
+        password: string().required("User password is required"),
         permission: bool(),
-        image: string()
+        image: string(),
+        active: bool()
     });
     await userSchema.validate(userData, {strict:true});
     next();
@@ -31,12 +32,18 @@ const userPatchValidator = async (
   ) => {
     try {
       const userData = req.body;
+      const userId = Number(req.params.id);
+
+      if (isNaN(userId) || !Number.isInteger(userId) || userId <= 0) 
+       throw makeError({ message: "Invalid user id", status: 400 });
+  
       const userSchema = object({
         name: string(), 
         email: string(),
         password: string(),
         permission: bool(),
-        image: string()
+        image: string(),
+        active: bool()
       });
       await userSchema.validate(userData, {strict:true});
       next();
@@ -45,7 +52,26 @@ const userPatchValidator = async (
     }
 };
 
+const userIdValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = Number(req.params.id);
+
+    if (isNaN(userId) || !Number.isInteger(userId) || userId <= 0) 
+     throw makeError({ message: "Invalid user id", status: 400 });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export default {
     userInsertValidator,
-    userPatchValidator
+    userPatchValidator,
+    userIdValidator
 }

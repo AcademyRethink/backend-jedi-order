@@ -15,7 +15,7 @@ const getDriversFilterById = async (driverID: number) => {
   );
   if (!resultDriver.length)
     throw new Error("There is no one in the table with that id");
-  return resultDriver;
+  return resultDriver[0];
 };
 
 export default {
