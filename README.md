@@ -20,6 +20,9 @@
 
 O produto possui duas funcionalidades principais: um Mapa para controle e gerenciamento em tempo real das locomotivas, e a Análise de falhas através de gráficos para os controladores. Essas funcionalidades visam melhorar a eficiência operacional, reduzir os custos de desenvolvimento de software interno e fornecer segurança nas tomadas de decisão dos responsáveis.</p>
 
+# Documentação do projeto
+O projeto está todo documentado <a href="https://www.notion.so/1a26ee60baaf41dd883fcd6a15b53ce9?v=294a95e3e1bc478a85e32819630426b6&pvs=4">aqui</a>, no Notion.
+
 # Pré-requisitos
 Antes de executar o projeto, verifique se o seu ambiente atende aos seguintes requisitos:
 
@@ -42,6 +45,7 @@ Siga as etapas abaixo para configurar o projeto em seu ambiente local:
 Após a configuração, você pode executar o projeto executando o seguinte comando:
 npm start
 Isso iniciará o servidor do backend e você poderá acessar as APIs por meio da URL http://localhost:3000.
+Também temos uma coleção do Postman onde você pode acessar todos os endpoints. Para acessá-lo, clique <a href="https://drive.google.com/file/d/1ATF1K1j93ZfEednLOWLuGc9qBAYmyToi/view?usp=sharing">aqui</a>.
 
 # Testes
 Para executar os testes unitários, utilize o seguinte comando:
