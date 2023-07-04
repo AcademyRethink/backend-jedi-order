@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { ReportType } from "../types/communicationReportsTypes";
 
 const communicationReportRepository = (knex: Knex) => ({
   findAll: () => {

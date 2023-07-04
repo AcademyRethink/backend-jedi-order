@@ -1,7 +1,19 @@
 import { Request, Response,NextFunction } from "express";
 import loginService from "../services/loginServices";
-import {User, LoginRequest} from '../types/user'
+import {User, LoginRequest,MyAccount} from '../types/user'
 import { ErrorType } from "../types/error";
+import loginServices from "../services/loginServices";
+
+const show = async (req: Request, res: Response, next:NextFunction) => {
+  try {
+    const userId = req.params.id;
+    const user: MyAccount = await loginServices.getUserById(Number(userId));
+
+    res.status(200).send(user);
+  } catch (error: unknown) {
+    next(error)
+  }
+};
 
 const insert = async (req: Request, res: Response, next:NextFunction) => {
   try {
@@ -38,4 +50,4 @@ const update = async (req: Request, res: Response, next:NextFunction): Promise<v
   }
 };
 
-export default { insert, update, login };
+export default { insert, update, login, show };

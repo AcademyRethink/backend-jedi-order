@@ -66,7 +66,7 @@ describe("Locomotives tests", () => {
       const result =
         await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
 
-      expect(result).toMatchObject(locomotiveOverviewData);
+      expect(result).toMatchObject(locomotiveStatusCountData);
     });
     it("should throw if no locomotives were found", async (): Promise<void> => {
       jest
