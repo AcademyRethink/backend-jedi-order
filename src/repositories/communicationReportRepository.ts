@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { ReportType } from "../types/communicationReportsTypes";
+import { CreateCommunicationReportData } from "../types/communicationReportsTypes";
 
 const communicationReportRepository = (knex: Knex) => ({
   findAll: () => {
@@ -20,7 +20,8 @@ const communicationReportRepository = (knex: Knex) => ({
         "locomotive.name as locomotive",
       ]);
   },
-  create: (data: any) => knex("communication_report").insert(data),
+  create: (data: CreateCommunicationReportData) =>
+    knex("communication_report").insert(data),
   findById: (id: number) =>
     knex("communication_report")
       .where("communication_report.id", id)

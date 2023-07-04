@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import communicationReportService from "../services/communicationReportServices";
 import { ReportType } from "../types/communicationReportsTypes";
+import { CreateCommunicationReportData } from "../types/communicationReportsTypes";
 
 const communicationReportController = (
   service: ReturnType<typeof communicationReportService>
@@ -23,7 +24,7 @@ const communicationReportController = (
     next: NextFunction
   ): Promise<void> => {
     try {
-      const newReport: ReportType = req.body;
+      const newReport: CreateCommunicationReportData = req.body;
       const createdReport: ReportType = await service.createReport(newReport);
       res.status(201).json(createdReport);
     } catch (error) {

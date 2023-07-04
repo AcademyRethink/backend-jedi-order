@@ -1,6 +1,7 @@
 import { makeError } from "../middlewares/errorHandler";
 import communicationReportRepository from "../repositories/communicationReportRepository";
 import { ReportType } from "../types/communicationReportsTypes";
+import { CreateCommunicationReportData } from "../types/communicationReportsTypes";
 import { formatReportDateAndTime } from "../utils/formateDateAndTime";
 interface ReportsByDate {
   [date: string]: {
@@ -21,7 +22,9 @@ const communicationReportService = (
     const reports: ReportType[] = await repo.findAll();
     return reports.map(formatReportDateAndTime);
   },
-  createReport: async (data: ReportType): Promise<ReportType> => {
+  createReport: async (
+    data: CreateCommunicationReportData
+  ): Promise<ReportType> => {
     const isCreated = await repo.create(data);
     if (isCreated) return data;
     throw makeError({ message: "Internal server error", status: 500 });
