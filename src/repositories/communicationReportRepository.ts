@@ -103,6 +103,26 @@ const communicationReportRepository = (knex: Knex) => ({
       .select("locomotive.name as locomotive", "failure_types.failure_type")
       .count("* as count")
       .groupBy("locomotive.name", "failure_types.failure_type"),
+
+  findByTimeInterval: (startDate: Date, endDate: Date) =>
+    knex("communication_report")
+      .join(
+        "failure_types",
+        "communication_report.subject_id",
+        "failure_types.id"
+      )
+      .join("user", "communication_report.created_by_id", "user.id")
+      .join("driver", "communication_report.driver_id", "driver.id")
+      .join("locomotive", "communication_report.locomotive_id", "locomotive.id")
+      .whereBetween("communication_report.created_at", [startDate, endDate])
+      .select([
+        "communication_report.*",
+        "failure_types.failure_type as subject",
+        "user.name as created_by",
+        "driver.name as driver",
+        "locomotive.name as locomotive",
+      ])
+      .orderBy("communication_report.created_at", "asc"),
 });
 
 export default communicationReportRepository;
