@@ -27,20 +27,11 @@ router.post(
   "/countbytimeinterval",
   controller.getErrorCountByLocomotiveAndTimeInterval
 );
-router.post("/filterbytimeinterval", async (req, res, next) => {
-  try {
-    const { startDate, endDate } = req.body;
-    const reports = await service.getReportsByTimeInterval(startDate, endDate);
-    exportToCsv(reports, res);
-  } catch (error) {
-    next(error);
-  }
-});
+router.post("/filterbytimeinterval", controller.getReportsCsvExported);
 
-router.get("/filterbysubjectanddays/:days", async (req, res) => {
-  const days = Number(req.params.days);
-  const result = await service.groupReportsByDate(days);
-  res.json(result);
-});
+router.get(
+  "/filterbysubjectanddays/:days",
+  controller.getFilteredSubjectsByDays
+);
 
 export { router };
