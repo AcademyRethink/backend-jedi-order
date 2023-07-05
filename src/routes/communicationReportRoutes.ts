@@ -3,6 +3,7 @@ import Knex from "knex";
 import communicationReportController from "../controllers/communicationReportController";
 import communicationReportService from "../services/communicationReportServices";
 import communicationReportRepository from "../repositories/communicationReportRepository";
+import exportToCsv from "../utils/csvExporter";
 import knexConfig from "../../knexfile";
 
 const router = Router();
@@ -26,7 +27,15 @@ router.post(
   "/countbytimeinterval",
   controller.getErrorCountByLocomotiveAndTimeInterval
 );
-router.post("/filterbytimeinterval", controller.getReportsByTimeInterval);
+router.post("/filterbytimeinterval", async (req, res, next) => {
+  try {
+    const { startDate, endDate } = req.body;
+    const reports = await service.getReportsByTimeInterval(startDate, endDate);
+    exportToCsv(reports, res);
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.get("/filterbysubjectanddays/:days", async (req, res) => {
   const days = Number(req.params.days);
