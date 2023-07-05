@@ -10,6 +10,12 @@ export type ReportType = {
   is_stopped?: boolean;
   reason_stopped?: string;
   is_communication_failed?: boolean;
+  subject: string;
+  created_by: string;
+  driver: string;
+  locomotive: string;
+  date: string;
+  time: string;
 };
 export interface CommunicationReport {
   id: number;
@@ -35,4 +41,10 @@ export interface CreateCommunicationReportData {
   is_stopped: boolean;
   reason_stopped: string;
   is_communication_failed: boolean;
+  subject: string;
+  created_by: string;
+  driver: string;
+  locomotive: string;
+  date: string;
+  time: string;
 }

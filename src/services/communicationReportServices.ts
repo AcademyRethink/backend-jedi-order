@@ -86,6 +86,17 @@ const communicationReportService = (
       count: parseInt(errorCount.count as string),
     }));
   },
+
+  getReportsByTimeInterval: async (
+    startDate: Date,
+    endDate: Date
+  ): Promise<ReportType[]> => {
+    const reports: ReportType[] = await repo.findByTimeInterval(
+      startDate,
+      endDate
+    );
+    return reports.map(formatReportDateAndTime);
+  },
 });
 
 export default communicationReportService;
