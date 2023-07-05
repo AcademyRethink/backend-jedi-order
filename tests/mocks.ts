@@ -1,3 +1,4 @@
+import { DriverType } from "../src/types/driversType";
 import { ErrorType } from "../src/types/error";
 import { LocomotiveType } from "../src/types/locomotivesType";
 import { RoutesType } from "../src/types/routesType";
@@ -107,6 +108,11 @@ export const myAccountUser: MyAccount = {
 export const errorMock: ErrorType = {
   message: "No locomotives found!",
   status: 500,
+};
+
+export const driverMock: DriverType = {
+  id: 1,
+  name: "Joao",
 };
 
 export const token =

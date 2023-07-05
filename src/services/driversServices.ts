@@ -1,10 +1,11 @@
+import { makeError } from "../middlewares/errorHandler";
 import driversRepositories from "../repositories/driversRepositories";
 import { DriverType } from "../types/driversType";
 
 const getAllDriversOfLocomotives = async () => {
   const name: DriverType[] = await driversRepositories.getAllDrivers();
   if (!name.length) {
-    throw new Error("No drivers found");
+    throw makeError({ message: "No drivers found", status: 500 });
   }
   return name;
 };
@@ -14,7 +15,10 @@ const getDriversFilterById = async (driverID: number) => {
     driverID
   );
   if (!resultDriver.length)
-    throw new Error("There is no one in the table with that id");
+    throw makeError({
+      message: "There is no one in the table with that id",
+      status: 500,
+    });
   return resultDriver[0];
 };
 
