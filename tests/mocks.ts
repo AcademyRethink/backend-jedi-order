@@ -1,6 +1,7 @@
+import { ErrorType } from "../src/types/error";
 import { LocomotiveType } from "../src/types/locomotivesType";
 import { RoutesType } from "../src/types/routesType";
-import { LoginRequest, User } from "../src/types/user";
+import { LoginRequest, MyAccount, User } from "../src/types/user";
 
 export const locomotiveData: LocomotiveType = {
   id: 1,
@@ -93,6 +94,19 @@ export const userData = {
   permission: true,
   active: true,
   image: undefined,
+};
+
+export const myAccountUser: MyAccount = {
+  id: 1,
+  name: "Andre",
+  email: "andre@email.com",
+  password: "usanfuqwnfiq",
+  active: true,
+};
+
+export const errorMock: ErrorType = {
+  message: "No locomotives found!",
+  status: 500,
 };
 
 export const token =
