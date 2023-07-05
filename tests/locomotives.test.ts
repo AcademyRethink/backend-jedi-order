@@ -1,11 +1,103 @@
 import { jest, describe } from "@jest/globals";
-import { locomotiveData, locomotiveStatusCountData } from "./mocks";
+import { errorMock, locomotiveData, locomotiveStatusCountData } from "./mocks";
 import locomotivesRepositories from "../src/repositories/locomotivesRepositories";
 import locomotivesServices from "../src/services/locomotivesServices";
 import { LocomotiveType } from "../src/types/locomotivesType";
 import { ErrorType } from "../src/types/error";
+import locomotivesController from "../src/controllers/locomotivesController";
+import { Request, Response, NextFunction } from "express";
 
 describe("Locomotives tests", () => {
+  const req = {} as Request;
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    send: jest.fn(),
+  } as unknown as Response;
+  const next = jest.fn() as NextFunction;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  //Controller
+  describe("show", () => {
+    it("should return status 200 and correct response", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesServices, "getAllLocomotivesInfo")
+        .mockResolvedValueOnce([locomotiveData]);
+
+      await locomotivesController.show(req, res, next);
+
+      expect(locomotivesServices.getAllLocomotivesInfo).toHaveBeenCalledTimes(
+        1
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith([locomotiveData]);
+      expect(next).not.toHaveBeenCalled();
+    });
+    it("Should call next function if error occurs", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesServices, "getAllLocomotivesInfo")
+        .mockRejectedValueOnce(errorMock);
+
+      await locomotivesController.show(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(errorMock);
+    });
+  });
+  describe("filterLocomotives", () => {
+    it("should return status 200 and correct response", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesServices, "getFilteredLocomotives")
+        .mockResolvedValueOnce([locomotiveData, locomotiveData]);
+
+      await locomotivesController.filterLocomotives(req, res, next);
+
+      expect(locomotivesServices.getFilteredLocomotives).toHaveBeenCalledTimes(
+        1
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith([locomotiveData, locomotiveData]);
+      expect(next).not.toHaveBeenCalled();
+    });
+    it("Should call next function if error occurs", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesServices, "getFilteredLocomotives")
+        .mockRejectedValueOnce(errorMock);
+
+      await locomotivesController.filterLocomotives(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(errorMock);
+    });
+  });
+
+  describe("quantityOfLocomotiveBystatus", () => {
+    it("should return status 200 and correct response", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesServices, "getFilteredQuantityOfLocomotiveByStatus")
+        .mockResolvedValueOnce(locomotiveStatusCountData);
+
+      await locomotivesController.quantityOfLocomotiveBystatus(req, res, next);
+
+      expect(
+        locomotivesServices.getFilteredQuantityOfLocomotiveByStatus
+      ).toHaveBeenCalledTimes(1);
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.send).toHaveBeenCalledWith(locomotiveStatusCountData);
+      expect(next).not.toHaveBeenCalled();
+    });
+    it("Should call next function if error occurs", async (): Promise<void> => {
+      jest
+        .spyOn(locomotivesServices, "getFilteredQuantityOfLocomotiveByStatus")
+        .mockRejectedValueOnce(errorMock);
+
+      await locomotivesController.quantityOfLocomotiveBystatus(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(errorMock);
+    });
+  });
+
+  //Services
   describe("getAllLocomotivesInfo", () => {
     it("should return all locomotives stored in DB", async (): Promise<void> => {
       jest
@@ -66,7 +158,7 @@ describe("Locomotives tests", () => {
       const result =
         await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
 
-      expect(result).toMatchObject(locomotiveOverviewData);
+      expect(result).toMatchObject(locomotiveStatusCountData);
     });
     it("should throw if no locomotives were found", async (): Promise<void> => {
       jest
@@ -90,6 +182,21 @@ describe("Locomotives tests", () => {
 
         expect(result).toMatchObject(locomotiveStatusCountData);
       });
+    });
+  });
+
+  // Repositories
+  describe("locomotives repositories tests", () => {
+    it("should return all locomotives from database", async () => {
+      const locomotives = await locomotivesRepositories.getAllLocomotivesData();
+      expect(locomotives.length).toBeGreaterThan(1);
+      expect(locomotives[0]).toHaveProperty("id");
+      expect(locomotives[0]).toHaveProperty("name");
+      expect(locomotives[0]).toHaveProperty("status");
+      expect(locomotives[0]).toHaveProperty("route");
+      expect(locomotives[0]).toHaveProperty("load");
+      expect(locomotives[0]).toHaveProperty("driverName");
+      expect(locomotives[0]).toHaveProperty("maneuverer");
     });
   });
 });
