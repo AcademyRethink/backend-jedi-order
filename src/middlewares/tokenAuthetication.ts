@@ -64,9 +64,6 @@ const authTokenAdmin = async (
     if (!tokenVerify)
       throw makeError({ message: "Invalid Token", status: 401 });
 
-    if (blackList.includes(userToken))
-      throw makeError({ message: "Expired Session", status: 401 });
-
     if (hasIdInRoute) {
       const userIdFromRoute = req.params.id;
       if (
