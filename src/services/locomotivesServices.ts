@@ -53,9 +53,7 @@ const getFilteredQuantityOfLocomotiveByStatus = async (): Promise<{
   const countLocomotiveStatus = allLocomotives.reduce(
     (acc, curr) => {
       acc.totalLocomotive = acc.totalLocomotive + 1;
-      if (curr.status === "maintenance") acc.maintenance = acc.maintenance + 1;
-      if (curr.status === "running") acc.running = acc.running + 1;
-      if (curr.status === "stopped") acc.stopped = acc.stopped + 1;
+      acc[curr.status]++;
       return acc;
     },
     { totalLocomotive: 0, maintenance: 0, running: 0, stopped: 0 }
