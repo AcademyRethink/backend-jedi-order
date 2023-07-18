@@ -1,8 +1,5 @@
 import communicationReportController from "../src/controllers/communicationReportController";
-import communicationReportService from "../src/services/communicationReportServices";
-import { mockReports, mockNewReport, mockReportFormated } from "./mocks";
-import communicationReportRepository from "../src/repositories/communicationReportRepository";
-import { formatReportDateAndTime } from "../src/utils/formateDateAndTime";
+import { mockReports, mockNewReport } from "./mocks";
 
 interface MockResponse {
   status: jest.Mock;

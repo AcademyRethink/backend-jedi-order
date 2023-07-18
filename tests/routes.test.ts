@@ -3,6 +3,7 @@ import { routeData } from "./mocks";
 import routesRepositories from "../src/repositories/routesRepositories";
 import { RoutesType } from "../src/types/routesType";
 import { ErrorType } from "../src/types/error";
+import routesServices from "../src/services/routesServices";
 
 describe("Routes tests", () => {
   describe("getRouteInfo", () => {
@@ -10,9 +11,7 @@ describe("Routes tests", () => {
       jest
         .spyOn(routesRepositories, "getRouteData")
         .mockResolvedValueOnce([routeData, routeData]);
-      const result: RoutesType[] = await routesRepositories.getRouteData(
-        "route1"
-      );
+      const result: RoutesType[] = await routesServices.getRouteInfo("route1");
 
       expect(result).toMatchObject([routeData, routeData]);
     });
@@ -20,7 +19,7 @@ describe("Routes tests", () => {
       jest.spyOn(routesRepositories, "getRouteData").mockResolvedValueOnce([]);
 
       try {
-        await routesRepositories.getRouteData("route1");
+        await routesServices.getRouteInfo("route1");
       } catch (error) {
         const myError: ErrorType = error as ErrorType;
         expect(myError.message).toBe("Route not found");
