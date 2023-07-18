@@ -15,5 +15,9 @@ export type LocomotivesFilterType = {
 };
 
 export type LocomotiveStatusType = {
-  status: "running" | "stopped" | "maintenance";
+  status:
+    | "Em movimento"
+    | "Locomotiva parada"
+    | "Em manutenção"
+    | "Problema de equipagem";
 };
