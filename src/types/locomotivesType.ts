@@ -18,3 +18,11 @@ export type LocomotivesFilterType = {
   load: string | undefined;
   locomotiveName: string | undefined;
 };
+
+export type LocomotiveStatusType = {
+  status:
+    | "Em movimento"
+    | "Locomotiva parada"
+    | "Em manutenção"
+    | "Problema de equipagem";
+};
