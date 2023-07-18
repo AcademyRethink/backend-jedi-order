@@ -52,4 +52,8 @@ const quantityOfLocomotiveBystatus = async (
   }
 };
 
-export default { show, filterLocomotives, quantityOfLocomotiveBystatus };
+export default {
+  show,
+  filterLocomotives,
+  quantityOfLocomotiveBystatus,
+};
