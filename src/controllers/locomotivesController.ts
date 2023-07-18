@@ -46,10 +46,14 @@ const quantityOfLocomotiveBystatus = async (
   try {
     const locomotiveStatus =
       await locomotivesServices.getFilteredQuantityOfLocomotiveByStatus();
-    res.status(200).json(locomotiveStatus);
+    res.status(200).send(locomotiveStatus);
   } catch (error) {
     next(error);
   }
 };
 
-export default { show, filterLocomotives, quantityOfLocomotiveBystatus };
+export default {
+  show,
+  filterLocomotives,
+  quantityOfLocomotiveBystatus,
+};
