@@ -22,6 +22,10 @@ const communicationReportService = (
     const reports: ReportType[] = await repo.findAll();
     return reports.map(formatReportDateAndTime);
   },
+  getLastFourReports: async (): Promise<ReportType[]> => {
+    const reports: ReportType[] = await repo.findLastFour();
+    return reports.map(formatReportDateAndTime);
+  },
   createReport: async (
     data: CreateCommunicationReportData
   ): Promise<ReportType> => {

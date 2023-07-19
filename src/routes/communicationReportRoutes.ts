@@ -16,6 +16,7 @@ const service = communicationReportService(repository);
 const controller = communicationReportController(service);
 
 router.get("/", controller.getAllReports);
+router.get("/last-four", controller.getLastFourReports);
 router.post("/", controller.createReport);
 router.get("/:id", controller.getReportById);
 router.get(
