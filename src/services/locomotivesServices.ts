@@ -39,9 +39,10 @@ const getFilteredLocomotives = async (
 
 const getFilteredQuantityOfLocomotiveByStatus = async (): Promise<{
   totalLocomotive: number;
-  maintenance: number;
-  running: number;
-  stopped: number;
+  "Em movimento": number;
+  "Locomotiva parada": number;
+  "Em manutenção": number;
+  "Problema de equipagem": number;
 }> => {
   const allLocomotives: LocomotiveType[] =
     await locomotivesRepositories.getAllLocomotivesData();
@@ -56,7 +57,13 @@ const getFilteredQuantityOfLocomotiveByStatus = async (): Promise<{
       acc[curr.status]++;
       return acc;
     },
-    { totalLocomotive: 0, maintenance: 0, running: 0, stopped: 0 }
+    {
+      totalLocomotive: 0,
+      "Em movimento": 0,
+      "Locomotiva parada": 0,
+      "Em manutenção": 0,
+      "Problema de equipagem": 0,
+    }
   );
   return countLocomotiveStatus;
 };

@@ -3,6 +3,8 @@ import routesController from "../controllers/routesController";
 
 const router: Router = Router();
 
-router.get("/", routesController.show);
+router.get("/route", routesController.show);
+router.get("/", routesController.index);
+router.get("/locomotivePosition", routesController.currentPosition);
 
 export { router };

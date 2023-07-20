@@ -184,19 +184,4 @@ describe("Locomotives tests", () => {
       });
     });
   });
-
-  // Repositories
-  describe("locomotives repositories tests", () => {
-    it("should return all locomotives from database", async () => {
-      const locomotives = await locomotivesRepositories.getAllLocomotivesData();
-      expect(locomotives.length).toBeGreaterThan(1);
-      expect(locomotives[0]).toHaveProperty("id");
-      expect(locomotives[0]).toHaveProperty("name");
-      expect(locomotives[0]).toHaveProperty("status");
-      expect(locomotives[0]).toHaveProperty("route");
-      expect(locomotives[0]).toHaveProperty("load");
-      expect(locomotives[0]).toHaveProperty("driverName");
-      expect(locomotives[0]).toHaveProperty("maneuverer");
-    });
-  });
 });

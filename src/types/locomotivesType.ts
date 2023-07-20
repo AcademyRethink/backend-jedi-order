@@ -1,8 +1,13 @@
-export interface LocomotiveType extends LocomotiveStatusType {
+export interface LocomotiveType {
   id?: number;
   name: string;
   driver_id?: number;
-  route: string;
+  status:
+    | "Em movimento"
+    | "Locomotiva parada"
+    | "Em manutenção"
+    | "Problema de equipagem";
+  route: "route1" | "route2" | "route3";
   load: string;
   driverName?: string;
   maneuverer: string | null;
@@ -15,5 +20,9 @@ export type LocomotivesFilterType = {
 };
 
 export type LocomotiveStatusType = {
-  status: "running" | "stopped" | "maintenance";
+  status:
+    | "Em movimento"
+    | "Locomotiva parada"
+    | "Em manutenção"
+    | "Problema de equipagem";
 };

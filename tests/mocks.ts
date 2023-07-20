@@ -1,3 +1,4 @@
+import { DriverType } from "../src/types/driversType";
 import { ErrorType } from "../src/types/error";
 import { LocomotiveType } from "../src/types/locomotivesType";
 import { RoutesType } from "../src/types/routesType";
@@ -6,7 +7,7 @@ import { LoginRequest, MyAccount, User } from "../src/types/user";
 export const locomotiveData: LocomotiveType = {
   id: 1,
   name: "Locomotiva ZEY39",
-  status: "stopped",
+  status: "Em movimento",
   route: "route1",
   load: "iron",
   driverName: "André",
@@ -15,9 +16,10 @@ export const locomotiveData: LocomotiveType = {
 
 export const locomotiveStatusCountData = {
   totalLocomotive: 2,
-  maintenance: 0,
-  running: 0,
-  stopped: 2,
+  "Em manutenção": 0,
+  "Em movimento": 2,
+  "Locomotiva parada": 0,
+  "Problema de equipagem": 0,
 };
 
 export const routeData: RoutesType = {
@@ -107,6 +109,11 @@ export const myAccountUser: MyAccount = {
 export const errorMock: ErrorType = {
   message: "No locomotives found!",
   status: 500,
+};
+
+export const driverMock: DriverType = {
+  id: 1,
+  name: "Joao",
 };
 
 export const token =

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import communicationReportService from "../services/communicationReportServices";
 import { ReportType } from "../types/communicationReportsTypes";
 import { CreateCommunicationReportData } from "../types/communicationReportsTypes";
+import exportToCsv from "../utils/csvExporter";
 
 const communicationReportController = (
   service: ReturnType<typeof communicationReportService>
@@ -13,6 +14,18 @@ const communicationReportController = (
   ): Promise<void> => {
     try {
       const reports: ReportType[] = await service.getReports();
+      res.json(reports);
+    } catch (error) {
+      next(error);
+    }
+  },
+  getLastFourReports: async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const reports: ReportType[] = await service.getLastFourReports();
       res.json(reports);
     } catch (error) {
       next(error);
@@ -89,6 +102,29 @@ const communicationReportController = (
           endDate
         );
       res.json(errorCounts);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  getFilteredSubjectsByDays: async (req: Request, res: Response) => {
+    const days = Number(req.params.days);
+    const result = await service.groupReportsByDate(days);
+    res.json(result);
+  },
+
+  getReportsCsvExported: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { startDate, endDate } = req.body;
+      const reports = await service.getReportsByTimeInterval(
+        startDate,
+        endDate
+      );
+      exportToCsv(reports, res);
     } catch (error) {
       next(error);
     }

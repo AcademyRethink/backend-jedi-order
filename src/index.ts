@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { router } from "./routes";
 import { errorHandler } from "./middlewares/errorHandler";
+import { simulateLocomotivesPosition } from "./utils/locomotivesLocation";
 
 dotenv.config();
 const app: Express = express();
@@ -22,3 +23,5 @@ app.get("", (_req: Request, res: Response) => {
 const port = 3000;
 
 app.listen(port, () => console.log(`App Listening on port ${port}...`));
+
+simulateLocomotivesPosition();
