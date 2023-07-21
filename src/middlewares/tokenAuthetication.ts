@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { makeError } from "./errorHandler";
 import { TokenPayload } from "../types/user";
-
-const blackList: string[] = [];
+import loginServices from "../services/loginServices";
 
 const authToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -56,9 +55,6 @@ const authTokenAdmin = async (
       process.env.SECRET_TOKEN!
     ) as TokenPayload;
 
-    if (blackList.includes(userToken))
-      throw makeError({ message: "Expired Session", status: 401 });
-
     const hasIdInRoute = "id" in req.params;
 
     if (!tokenVerify)
@@ -96,9 +92,12 @@ const logoutAuth = async (req: Request, res: Response, next: NextFunction) => {
       process.env.SECRET_TOKEN!
     ) as TokenPayload;
 
-    if (tokenVerify) blackList.push(userToken);
+    if (tokenVerify) {
+      tokenVerify.exp = Math.floor(Date.now() / 1000) - 1;
+    }
+    const tokenInvalido = jwt.sign(tokenVerify, process.env.SECRET_TOKEN!);
 
-    res.status(200).json({ message: "Logout successful" });
+    res.status(200).send(tokenInvalido);
   } catch (error: unknown) {
     next(error);
   }
