@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import loginService from "../services/loginServices";
-import { User, LoginRequest, MyAccount } from "../types/user";
+import {
+  User,
+  LoginRequest,
+  MyAccount,
+  UserWithActualPassword,
+} from "../types/user";
 import { ErrorType } from "../types/error";
 import loginServices from "../services/loginServices";
 
@@ -49,10 +54,11 @@ const update = async (
 ): Promise<void> => {
   try {
     const id: string = req.params.id;
-    const user: User = req.body;
+    const user: UserWithActualPassword = req.body;
+    console.log("user", user);
 
     const patchUser: User = await loginService.patchUser(parseInt(id), user);
-
+    console.log(patchUser);
     res.status(201).send(patchUser);
   } catch (error: unknown) {
     next(error);

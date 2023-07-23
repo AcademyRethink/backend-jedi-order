@@ -1,5 +1,10 @@
 import bcrypt from "bcrypt";
-import { User, LoginRequest, MyAccount } from "../types/user";
+import {
+  User,
+  LoginRequest,
+  MyAccount,
+  UserWithActualPassword,
+} from "../types/user";
 import jwt from "jsonwebtoken";
 import loginRepository from "../repositories/loginRepositories";
 import { makeError } from "../middlewares/errorHandler";
@@ -57,17 +62,28 @@ const createToken = async (user: User) => {
   return token;
 };
 
-const patchUser = async (id: number, user: User) => {
-  const userWithEncryptedPassword: User = { ...user };
+const patchUser = async (id: number, user: UserWithActualPassword) => {
+  const userWithEncryptedPassword: UserWithActualPassword = { ...user };
+  const userById: MyAccount[] = await loginRepository.getUserById(id);
 
-  if (user.password) {
-    const saltRounds = process.env.SALT!;
-    const hash = await bcrypt.hash(user.password, Number(saltRounds));
-    userWithEncryptedPassword.password = hash;
+  if (user.actualPassword) {
+    const verifyPassword: boolean = await bcrypt.compare(
+      user.actualPassword,
+      userById[0].password
+    );
+    if (verifyPassword) {
+      const saltRounds = process.env.SALT!;
+      const hash = await bcrypt.hash(user.password, Number(saltRounds));
+      userWithEncryptedPassword.password = hash;
+    } else {
+      throw makeError({ message: "Senha atual incorreta", status: 400 });
+    }
   }
+  const { actualPassword, ...userWithoutActualPassword } =
+    userWithEncryptedPassword;
 
   const updatedUser: User[] = await loginRepository.updateUser(
-    { ...userWithEncryptedPassword },
+    { ...userWithoutActualPassword },
     id
   );
 
