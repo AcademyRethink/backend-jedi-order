@@ -20,7 +20,7 @@ app.get("", (_req: Request, res: Response) => {
   res.send("Jedi Order API - Versão 01");
 });
 
-const port = 3000;
+const port = 3030;
 
 app.listen(port, () => console.log(`App Listening on port ${port}...`));
 
