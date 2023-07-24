@@ -35,5 +35,5 @@ export const simulateLocomotivesPosition = async () => {
     return locomotivesPosition;
   };
 
-  setInterval(movelocomotivesPosition, 20000);
+  setInterval(movelocomotivesPosition, 60000);
 };

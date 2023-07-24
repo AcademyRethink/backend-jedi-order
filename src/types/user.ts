@@ -24,6 +24,10 @@ type MyAccount = {
   active: boolean;
 };
 
+interface UserWithActualPassword extends User {
+  actualPassword: string;
+}
+
 interface TokenPayload extends JwtPayload {
   id: number;
   email: string;
@@ -32,4 +36,4 @@ interface TokenPayload extends JwtPayload {
   exp: number;
 }
 
-export { User, LoginRequest, TokenPayload, MyAccount };
+export { User, LoginRequest, TokenPayload, MyAccount, UserWithActualPassword };

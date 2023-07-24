@@ -19,6 +19,18 @@ const communicationReportController = (
       next(error);
     }
   },
+  getLastFourReports: async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    try {
+      const reports: ReportType[] = await service.getLastFourReports();
+      res.json(reports);
+    } catch (error) {
+      next(error);
+    }
+  },
   createReport: async (
     req: Request,
     res: Response,

@@ -13,8 +13,8 @@ login.post(
 login.post("/login", user.login);
 login.patch(
   "/:id",
-  userValidator.userPatchValidator,
   tokenAuth.authTokenAdmin,
+  userValidator.userPatchValidator,
   user.update
 );
 login.get(

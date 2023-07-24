@@ -2,6 +2,26 @@ import { Knex } from "knex";
 import { CreateCommunicationReportData } from "../types/communicationReportsTypes";
 
 const communicationReportRepository = (knex: Knex) => ({
+  findLastFour: () => {
+    return knex("communication_report")
+      .join(
+        "failure_types",
+        "communication_report.subject_id",
+        "failure_types.id"
+      )
+      .join("user", "communication_report.created_by_id", "user.id")
+      .join("driver", "communication_report.driver_id", "driver.id")
+      .join("locomotive", "communication_report.locomotive_id", "locomotive.id")
+      .select([
+        "communication_report.*",
+        "failure_types.failure_type as subject",
+        "user.name as created_by",
+        "driver.name as driver",
+        "locomotive.name as locomotive",
+      ])
+      .orderBy("communication_report.created_at", "desc")
+      .limit(4);
+  },
   findAll: () => {
     return knex("communication_report")
       .join(
